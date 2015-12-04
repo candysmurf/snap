@@ -48,7 +48,9 @@ var (
 	unionParseFormat = timeParseFormat + " " + dateParseFormat
 )
 
+// const defines constants for the length of a string.
 const (
+	// K defines the length of a string.
 	K = 1000
 	M = 1000 * K
 	G = 1000 * M

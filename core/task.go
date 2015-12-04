@@ -29,8 +29,10 @@ import (
 	"github.com/intelsdi-x/snap/scheduler/wmap"
 )
 
+// TaskState integer type
 type TaskState int
 
+// const task states
 const (
 	TaskDisabled TaskState = iota - 1
 	TaskStopped
@@ -41,6 +43,7 @@ const (
 )
 
 var (
+	// TaskStateLookup A map of task states
 	TaskStateLookup = map[TaskState]string{
 		TaskDisabled: "Disabled", // on error, not resumable
 		TaskStopped:  "Stopped",  // stopped but resumable
@@ -51,10 +54,13 @@ var (
 	}
 )
 
+// TaskWatcherCloser interface
 type TaskWatcherCloser interface {
 	Close() error
 }
 
+// TaskWatcherHandler interface defines
+// task watch functions
 type TaskWatcherHandler interface {
 	CatchCollection([]Metric)
 	CatchTaskStarted()
@@ -62,10 +68,12 @@ type TaskWatcherHandler interface {
 	CatchTaskDisabled(string)
 }
 
+// String returns task state
 func (t TaskState) String() string {
 	return TaskStateLookup[t]
 }
 
+// Task interface defines snap task
 type Task interface {
 	ID() string
 	// Status() WorkflowState TODO, switch to string
@@ -89,6 +97,7 @@ type Task interface {
 	Schedule() schedule.Schedule
 }
 
+// TaskOption data type
 type TaskOption func(Task) TaskOption
 
 // TaskDeadlineDuration sets the tasks deadline.
@@ -102,7 +111,7 @@ func TaskDeadlineDuration(v time.Duration) TaskOption {
 	}
 }
 
-// TaskStopOnFailure sets the tasks stopOnFailure
+// OptionStopOnFailure sets the tasks stopOnFailure
 // The stopOnFailure is the number of consecutive task failures that will
 // trigger disabling the task
 func OptionStopOnFailure(v uint) TaskOption {
@@ -131,6 +140,7 @@ func SetTaskName(name string) TaskOption {
 	}
 }
 
+// SetTaskID set task id
 func SetTaskID(id string) TaskOption {
 	return func(t Task) TaskOption {
 		previous := t.ID()
@@ -139,6 +149,7 @@ func SetTaskID(id string) TaskOption {
 	}
 }
 
+// TaskErrors interface defines array of snap errors
 type TaskErrors interface {
 	Errors() []serror.SnapError
 }

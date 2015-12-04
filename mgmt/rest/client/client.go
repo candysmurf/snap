@@ -39,13 +39,18 @@ import (
 )
 
 var (
+	// CompressUpload A flag indicates if an upload requires compressing
 	CompressUpload = true
-
+     
+    // ErrUnknown The error message for unknown error
 	ErrUnknown     = errors.New("Unknown error calling API")
+	// ErrNilResponse The error message for Nil response
 	ErrNilResponse = errors.New("Nil response from JSON unmarshalling")
+	// ErrDirNotFile The error message for plugin path is a directory
 	ErrDirNotFile  = errors.New("Provided plugin path is a directory not file")
 )
 
+// const A list of content type constants
 const (
 	ContentTypeJSON contentType = iota
 	ContentTypeBinary
@@ -60,6 +65,7 @@ var (
 	}
 )
 
+// Client struct type
 type Client struct {
 	// URL specifies HTTP API request uniform resource locator.
 	URL string

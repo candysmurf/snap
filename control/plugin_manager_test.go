@@ -39,8 +39,8 @@ var (
 	SnapPath   = os.Getenv("SNAP_PATH")
 	PluginPath = path.Join(SnapPath, "plugin", PluginName)
 
-	JSONRPC_PluginName = "snap-collector-mock1"
-	JSONRPC_PluginPath = path.Join(SnapPath, "plugin", JSONRPC_PluginName)
+	JSONRPCPluginName = "snap-collector-mock1"
+	JSONRPCPluginPath = path.Join(SnapPath, "plugin", JSONRPCPluginName)
 )
 
 func TestLoadedPlugins(t *testing.T) {

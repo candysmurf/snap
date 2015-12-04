@@ -29,6 +29,12 @@ import (
 	"math/big"
 	"os"
 	"time"
+	"errors"
+)
+
+var (
+	// ErrBadCert - bad certe error message
+	ErrBadCert = errors.New("Bad Certificate")
 )
 
 type tls struct {

@@ -51,15 +51,20 @@ import (
 
 var (
 	// Switching this turns on logging for all the REST API calls
-	LOG_LEVEL = log.WarnLevel
+	logLevel = log.WarnLevel
 
-	SNAP_PATH         = os.Getenv("SNAP_PATH")
-	MOCK_PLUGIN_PATH1 = SNAP_PATH + "/plugin/snap-collector-mock1"
-	MOCK_PLUGIN_PATH2 = SNAP_PATH + "/plugin/snap-collector-mock2"
-	FILE_PLUGIN_PATH  = SNAP_PATH + "/plugin/snap-publisher-file"
-
+	// SnapPath - The snap path
+	SnapPath         = os.Getenv("SNAP_PATH")
+	// MockPluginPath2 - sample mock plugin
+	MockPluginPath2 = SnapPath + "/plugin/snap-collector-mock2"
+	// FilePluginPath - sample file publisher
+	FilePluginPath  = SnapPath + "/plugin/snap-publisher-file"
+     
+    // CompressedUpload flag
 	CompressedUpload = true
+	// TotalUploadSize constant
 	TotalUploadSize  = 0
+	// UploadCount constant
 	UploadCount      = 0
 )
 
@@ -306,7 +311,7 @@ func uploadPlugin(pluginPath string, port int) *rbody.APIResponse {
 		log.Fatal(err)
 	}
 	TotalUploadSize += body.Len()
-	UploadCount += 1
+	UploadCount ++
 	req, err := http.NewRequest("POST", uri, body)
 	if err != nil {
 		log.Fatal(err)
@@ -428,7 +433,7 @@ func deletePluginConfigItem(port int, typ string, name, ver string, fields []str
 // When we eventually have a REST API Stop command this can be killed.
 func startAPI(opts ...interface{}) *restAPIInstance {
 	// Start a REST API to talk to
-	log.SetLevel(LOG_LEVEL)
+	log.SetLevel(LogLevel)
 	r, _ := New(false, "", "")
 	controlOpts := []control.ControlOpt{}
 	for _, opt := range opts {
@@ -584,8 +589,8 @@ func TestPluginRestCalls(t *testing.T) {
 				r := startAPI()
 				port := r.port
 
-				uploadPlugin(MOCK_PLUGIN_PATH2, port)
-				uploadPlugin(FILE_PLUGIN_PATH, port)
+				uploadPlugin(MockPluginPath2, port)
+				uploadPlugin(FilePluginPath, port)
 
 				r1 := createTask("1.json", "yeti", "1s", true, port)
 				So(r1.Body, ShouldHaveSameTypeAs, new(rbody.AddScheduledTask))

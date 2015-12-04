@@ -27,6 +27,7 @@ import (
 	"github.com/intelsdi-x/snap/core/cdata"
 )
 
+// Label struct type
 type Label struct {
 	Index int    `json:"index"`
 	Name  string `json:"name"`
@@ -50,12 +51,14 @@ type RequestedMetric interface {
 	Version() int
 }
 
+// CatalogedMetric interface
 type CatalogedMetric interface {
 	RequestedMetric
 	LastAdvertisedTime() time.Time
 	Policy() *cpolicy.ConfigPolicyNode
 }
 
+// JoinNamespace joins metric namespaces
 func JoinNamespace(ns []string) string {
 	return "/" + strings.Join(ns, "/")
 }

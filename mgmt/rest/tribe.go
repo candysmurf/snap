@@ -37,8 +37,11 @@ var (
 		"_module": "rest-tribe",
 	})
 
+    // ErrInvalidJSON - error message for invalid json
 	ErrInvalidJSON           = errors.New("Invalid JSON")
+	// ErrAgreementDoesNotExist - error message for no agreement found
 	ErrAgreementDoesNotExist = errors.New("Agreement not found")
+    // ErrMemberNotFound - error message for member not found
 	ErrMemberNotFound        = errors.New("Member not found")
 )
 

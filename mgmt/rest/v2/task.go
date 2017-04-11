@@ -33,14 +33,74 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// TasksResp returns a list of created tasks.
+//
+// swagger:response TasksResponse
+type TasksResp struct {
+	// in: body
+	Body struct {
+		Tasks Tasks `json:"tasks"`
+	}
+}
+
+// TaskResp returns a task.
+//
+// swagger:response TaskResponse
+type TaskResp struct {
+	// in: body
+	Task Task `json:"task"`
+}
+
+// RemoveTaskError returns removing a task error.
+//
+// swagger:response TaskErrorResponse
+type RemoveTaskError struct {
+	// in: body
+	Message string `json:"message"`
+}
+
 type TasksResponse struct {
 	Tasks Tasks `json:"tasks"`
 }
 
+// TaskParam define the API path task id.
+//
+// swagger:parameters getTask watchTask updateTaskState removeTask
+type TaskParam struct {
+	// in: path
+	// required: true
+	ID string `json:"id"`
+}
+
+// TaskPostParams defines task POST and PUT content.
+// swagger:parameters addTask
+type TaskPostParams struct {
+	// Create a task.
+	//
+	// in: formData
+	//
+	// required: true
+	Task string `json:"task"yaml:"task"`
+}
+
+// TaskPutParams defines a task state
+//
+// swagger:parameters updateTaskState
+type TaskPutParams struct {
+	// Update the state of a task
+	//
+	// in: formData
+	//
+	// required: true
+	Action string `json:"action"`
+}
+
+// Task represents Snap task definition.
 type Task struct {
-	ID                 string            `json:"id"`
-	Name               string            `json:"name"`
-	Deadline           string            `json:"deadline"`
+	Version            int               `json:"version,omitempty"`
+	ID                 string            `json:"id,omitempty"`
+	Name               string            `json:"name,omitempty"`
+	Deadline           string            `json:"deadline,omitempty"`
 	Workflow           *wmap.WorkflowMap `json:"workflow,omitempty"`
 	Schedule           *core.Schedule    `json:"schedule,omitempty"`
 	CreationTimestamp  int64             `json:"creation_timestamp,omitempty"`
@@ -49,8 +109,10 @@ type Task struct {
 	MissCount          int               `json:"miss_count,omitempty"`
 	FailedCount        int               `json:"failed_count,omitempty"`
 	LastFailureMessage string            `json:"last_failure_message,omitempty"`
-	State              string            `json:"task_state"`
-	Href               string            `json:"href"`
+	State              string            `json:"state,omitempty"`
+	Href               string            `json:"href,omitempty"`
+	Start              bool              `json:"start,omitempty"`
+	MaxFailures        int               `json:"max-failures,omitempty"`
 }
 
 type Tasks []Task

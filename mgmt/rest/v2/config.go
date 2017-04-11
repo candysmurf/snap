@@ -33,9 +33,39 @@ type PolicyTable cpolicy.RuleTable
 
 type PolicyTableSlice []cpolicy.RuleTable
 
-// cdata.ConfigDataNode implements it's own UnmarshalJSON
+// PluginConfigItem represents the response of a plugin config items.
+//
+// swagger:response PluginConfigResponse
 type PluginConfigItem struct {
-	cdata.ConfigDataNode
+	// in: body
+	Config cdata.ConfigDataNode `json:"config"`
+}
+
+// PluginConfigParam type
+//
+//swagger:parameters setPluginConfigItem
+type PluginConfigParam struct {
+	// in: formData
+	Config string `json:"config"`
+}
+
+// PluginConfigDeleteParams defines parameters for deleting a config.
+//
+// swagger:parameters deletePluginConfigItem
+type PluginConfigDeleteParams struct {
+	// required: true
+	// in: path
+	PName string `json:"pname"`
+	// required: true
+	// in: path
+	PVersion int `json:"pversion"`
+	// required: true
+	// in: path
+	// enum: collector, processor, publisher
+	PType string `json:"ptype"`
+	// in: formData
+	// required: true
+	Config []string `json:"config"`
 }
 
 func (s *apiV2) getPluginConfigItem(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -43,7 +73,7 @@ func (s *apiV2) getPluginConfigItem(w http.ResponseWriter, r *http.Request, p ht
 	styp := p.ByName("type")
 	if styp == "" {
 		cdn := s.configManager.GetPluginConfigDataNodeAll()
-		item := &PluginConfigItem{ConfigDataNode: cdn}
+		item := &PluginConfigItem{Config: cdn}
 		Write(200, item, w)
 		return
 	}
@@ -65,7 +95,7 @@ func (s *apiV2) getPluginConfigItem(w http.ResponseWriter, r *http.Request, p ht
 	}
 
 	cdn := s.configManager.GetPluginConfigDataNode(typ, name, iver)
-	item := &PluginConfigItem{ConfigDataNode: cdn}
+	item := &PluginConfigItem{Config: cdn}
 	Write(200, item, w)
 }
 
@@ -105,7 +135,7 @@ func (s *apiV2) deletePluginConfigItem(w http.ResponseWriter, r *http.Request, p
 		res = s.configManager.DeletePluginConfigDataNodeField(typ, name, iver, src...)
 	}
 
-	item := &PluginConfigItem{ConfigDataNode: res}
+	item := &PluginConfigItem{Config: res}
 	Write(200, item, w)
 }
 
@@ -145,6 +175,6 @@ func (s *apiV2) setPluginConfigItem(w http.ResponseWriter, r *http.Request, p ht
 		res = s.configManager.MergePluginConfigDataNode(typ, name, iver, src)
 	}
 
-	item := &PluginConfigItem{ConfigDataNode: res}
+	item := &PluginConfigItem{Config: res}
 	Write(200, item, w)
 }

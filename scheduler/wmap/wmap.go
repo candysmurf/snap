@@ -107,9 +107,9 @@ func Sample() *WorkflowMap {
 
 	// pr1 := &ProcessWorkflowMapNode{Name: "learn", Version: 3}
 	pu1 := &PublishWorkflowMapNode{
-		Name:    "rabbitmq",
-		Version: 5,
-		Config:  make(map[string]interface{}),
+		PluginName:    "rabbitmq",
+		PluginVersion: 5,
+		Config:        make(map[string]interface{}),
 	}
 
 	pu1.Config["user"] = "root"
@@ -128,8 +128,9 @@ func Sample() *WorkflowMap {
 	return wf
 }
 
-// A map of a desired workflow that is used to create a scheduleWorkflow
+// WorkflowMap represents a map of a desired workflow that is used to create a scheduleWorkflow
 type WorkflowMap struct {
+	// required: true
 	CollectNode *CollectWorkflowMapNode `json:"collect"yaml:"collect"`
 }
 
@@ -169,7 +170,9 @@ func (w *WorkflowMap) ToYaml() ([]byte, error) {
 	return yaml.Marshal(w)
 }
 
+// CollectWorkflowMapNode represents Snap workflow data model.
 type CollectWorkflowMapNode struct {
+	// required: true
 	Metrics      map[string]metricInfo             `json:"metrics"yaml:"metrics"`
 	Config       map[string]map[string]interface{} `json:"config,omitempty"yaml:"config"`
 	Tags         map[string]map[string]string      `json:"tags,omitempty"yaml:"tags"`
@@ -282,10 +285,11 @@ func (c *CollectWorkflowMapNode) AddConfigItem(ns, key string, value interface{}
 }
 
 type ProcessWorkflowMapNode struct {
-	Name         string                   `json:"plugin_name"yaml:"plugin_name"`
-	Version      int                      `json:"plugin_version"yaml:"plugin_version"`
-	ProcessNodes []ProcessWorkflowMapNode `json:"process,omitempty"yaml:"process"`
-	PublishNodes []PublishWorkflowMapNode `json:"publish,omitempty"yaml:"publish"`
+	// required: true
+	PluginName    string                   `json:"plugin_name"yaml:"plugin_name"`
+	PluginVersion int                      `json:"plugin_version"yaml:"plugin_version"`
+	ProcessNodes  []ProcessWorkflowMapNode `json:"process,omitempty"yaml:"process"`
+	PublishNodes  []PublishWorkflowMapNode `json:"publish,omitempty"yaml:"publish"`
 	// TODO processor config
 	Config map[string]interface{} `json:"config,omitempty"yaml:"config"`
 	Target string                 `json:"target"yaml:"target"`
@@ -299,11 +303,11 @@ func (pw *ProcessWorkflowMapNode) UnmarshalJSON(data []byte) error {
 	for k, v := range t {
 		switch k {
 		case "plugin_name":
-			if err := json.Unmarshal(v, &pw.Name); err != nil {
+			if err := json.Unmarshal(v, &pw.PluginName); err != nil {
 				return fmt.Errorf("%v (while parsing 'plugin_name')", err)
 			}
 		case "plugin_version":
-			if err := json.Unmarshal(v, &pw.Version); err != nil {
+			if err := json.Unmarshal(v, &pw.PluginVersion); err != nil {
 				return fmt.Errorf("%v (while parsing 'plugin_version')", err)
 			}
 		case "process":
@@ -332,8 +336,8 @@ func (pw *ProcessWorkflowMapNode) UnmarshalJSON(data []byte) error {
 
 func NewProcessNode(name string, version int) *ProcessWorkflowMapNode {
 	p := &ProcessWorkflowMapNode{
-		Name:    name,
-		Version: version,
+		PluginName:    name,
+		PluginVersion: version,
 	}
 	return p
 }
@@ -365,9 +369,10 @@ func (p *ProcessWorkflowMapNode) GetConfigNode() (*cdata.ConfigDataNode, error) 
 }
 
 type PublishWorkflowMapNode struct {
-	Name    string `json:"plugin_name"yaml:"plugin_name"`
-	Version int    `json:"plugin_version"yaml:"plugin_version"`
-	// TODO publisher config
+	// required: true
+	PluginName    string `json:"plugin_name"yaml:"plugin_name"`
+	PluginVersion int    `json:"plugin_version"yaml:"plugin_version"`
+	// required: true
 	Config map[string]interface{} `json:"config,omitempty"yaml:"config"`
 	Target string                 `json:"target"yaml:"target"`
 }
@@ -380,11 +385,11 @@ func (pw *PublishWorkflowMapNode) UnmarshalJSON(data []byte) error {
 	for k, v := range t {
 		switch k {
 		case "plugin_name":
-			if err := json.Unmarshal(v, &pw.Name); err != nil {
+			if err := json.Unmarshal(v, &pw.PluginName); err != nil {
 				return fmt.Errorf("%v (while parsing 'plugin_name')", err)
 			}
 		case "plugin_version":
-			if err := json.Unmarshal(v, &pw.Version); err != nil {
+			if err := json.Unmarshal(v, &pw.PluginVersion); err != nil {
 				return fmt.Errorf("%v (while parsing 'plugin_version')", err)
 			}
 		case "config":
@@ -404,8 +409,8 @@ func (pw *PublishWorkflowMapNode) UnmarshalJSON(data []byte) error {
 
 func NewPublishNode(name string, version int) *PublishWorkflowMapNode {
 	p := &PublishWorkflowMapNode{
-		Name:    name,
-		Version: version,
+		PluginName:    name,
+		PluginVersion: version,
 	}
 	return p
 }

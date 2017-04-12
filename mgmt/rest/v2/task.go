@@ -109,7 +109,7 @@ type Task struct {
 	MissCount          int               `json:"miss_count,omitempty"`
 	FailedCount        int               `json:"failed_count,omitempty"`
 	LastFailureMessage string            `json:"last_failure_message,omitempty"`
-	State              string            `json:"state,omitempty"`
+	TaskState          string            `json:"task_state,omitempty"`
 	Href               string            `json:"href,omitempty"`
 	Start              bool              `json:"start,omitempty"`
 	MaxFailures        int               `json:"max-failures,omitempty"`
@@ -250,7 +250,7 @@ func SchedulerTaskFromTask(t core.Task) Task {
 		MissCount:          int(t.MissedCount()),
 		FailedCount:        int(t.FailedCount()),
 		LastFailureMessage: t.LastFailureMessage(),
-		State:              t.State().String(),
+		TaskState:          t.State().String(),
 	}
 	if st.LastRunTimestamp < 0 {
 		st.LastRunTimestamp = -1

@@ -1213,9 +1213,9 @@
           "type": "boolean",
           "x-go-name": "Start"
         },
-        "state": {
+        "task_state": {
           "type": "string",
-          "x-go-name": "State"
+          "x-go-name": "TaskState"
         },
         "version": {
           "type": "integer",

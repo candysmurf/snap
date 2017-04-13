@@ -290,7 +290,7 @@ type ProcessWorkflowMapNode struct {
 	PluginVersion int                      `json:"plugin_version"yaml:"plugin_version"`
 	ProcessNodes  []ProcessWorkflowMapNode `json:"process,omitempty"yaml:"process"`
 	PublishNodes  []PublishWorkflowMapNode `json:"publish,omitempty"yaml:"publish"`
-	// TODO processor config
+	// Config the configuration of a processor.
 	Config map[string]interface{} `json:"config,omitempty"yaml:"config"`
 	Target string                 `json:"target"yaml:"target"`
 }
@@ -373,6 +373,7 @@ type PublishWorkflowMapNode struct {
 	PluginName    string `json:"plugin_name"yaml:"plugin_name"`
 	PluginVersion int    `json:"plugin_version"yaml:"plugin_version"`
 	// required: true
+	// Config the config of a publisher
 	Config map[string]interface{} `json:"config,omitempty"yaml:"config"`
 	Target string                 `json:"target"yaml:"target"`
 }

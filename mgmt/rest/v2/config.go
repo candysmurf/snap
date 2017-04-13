@@ -33,7 +33,7 @@ type PolicyTable cpolicy.RuleTable
 
 type PolicyTableSlice []cpolicy.RuleTable
 
-// PluginConfigItem represents the response of a plugin config items.
+// PluginConfigResponse represents the response of a plugin config items.
 //
 // swagger:response PluginConfigResponse
 type PluginConfigItem struct {
@@ -41,7 +41,7 @@ type PluginConfigItem struct {
 	Config cdata.ConfigDataNode `json:"config"`
 }
 
-// PluginConfigParam type
+// PluginConfigParam defines the string representation of a config.
 //
 //swagger:parameters setPluginConfigItem
 type PluginConfigParam struct {
@@ -72,8 +72,8 @@ func (s *apiV2) getPluginConfigItem(w http.ResponseWriter, r *http.Request, p ht
 	var err error
 	styp := p.ByName("type")
 	if styp == "" {
-		cdn := s.configManager.GetPluginConfigDataNodeAll()
-		item := &PluginConfigItem{Config: cdn}
+		cfg := s.configManager.GetPluginConfigDataNodeAll()
+		item := &PluginConfigItem{Config: cfg}
 		Write(200, item, w)
 		return
 	}
@@ -94,8 +94,8 @@ func (s *apiV2) getPluginConfigItem(w http.ResponseWriter, r *http.Request, p ht
 		}
 	}
 
-	cdn := s.configManager.GetPluginConfigDataNode(typ, name, iver)
-	item := &PluginConfigItem{Config: cdn}
+	cfg := s.configManager.GetPluginConfigDataNode(typ, name, iver)
+	item := &PluginConfigItem{Config: cfg}
 	Write(200, item, w)
 }
 

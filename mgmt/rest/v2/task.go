@@ -33,7 +33,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// TasksResp returns a list of created tasks.
+// TasksResponse returns a list of created tasks.
 //
 // swagger:response TasksResponse
 type TasksResp struct {
@@ -43,7 +43,7 @@ type TasksResp struct {
 	}
 }
 
-// TaskResp returns a task.
+// TaskResponse returns a task.
 //
 // swagger:response TaskResponse
 type TaskResp struct {
@@ -51,7 +51,7 @@ type TaskResp struct {
 	Task Task `json:"task"`
 }
 
-// RemoveTaskError returns removing a task error.
+// TaskErrorResponse returns removing a task error.
 //
 // swagger:response TaskErrorResponse
 type RemoveTaskError struct {
@@ -63,7 +63,7 @@ type TasksResponse struct {
 	Tasks Tasks `json:"tasks"`
 }
 
-// TaskParam define the API path task id.
+// TaskParam defines the API path task id.
 //
 // swagger:parameters getTask watchTask updateTaskState removeTask
 type TaskParam struct {
@@ -72,7 +72,8 @@ type TaskParam struct {
 	ID string `json:"id"`
 }
 
-// TaskPostParams defines task POST and PUT content.
+// TaskPostParams defines task POST and PUT string representation content.
+//
 // swagger:parameters addTask
 type TaskPostParams struct {
 	// Create a task.

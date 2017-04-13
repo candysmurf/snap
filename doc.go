@@ -14,7 +14,7 @@
 //     Schemes: http, https
 //     Host: 127.0.0.1:8181
 //     BasePath: /v2
-//     Version: 1.1.0
+//     Version: 2.0
 //     License: Apache 2.0  http://www.apache.org/licenses/
 //     Contact: Snap Maintainer<snap@intelsdi-x.slack.com> https://github.com/intelsdi-x/snap
 //

@@ -33,7 +33,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// MetricsResp is the representation of metric operation response.
+// MetricsResponse is the representation of metric operation response.
 //
 // swagger:response MetricsResponse
 type MetricsResp struct {

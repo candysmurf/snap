@@ -78,10 +78,10 @@ type TaskParam struct {
 type TaskPostParams struct {
 	// Create a task.
 	//
-	// in: formData
+	// in: body
 	//
 	// required: true
-	Task string `json:"task"yaml:"task"`
+	Task Task `json:"task"yaml:"task"`
 }
 
 // TaskPutParams defines a task state
